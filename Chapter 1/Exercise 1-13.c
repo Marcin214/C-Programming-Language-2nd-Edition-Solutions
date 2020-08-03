@@ -4,14 +4,15 @@
 
 #define IN 1  /* inside a word */
 #define OUT 0 /* outside a word */
-#define HIST_SIZE 10 /* max number of words in histogram */
+#define MAX_WORDS 10 /* max number of words in histogram */
+#define MAX_CHARS 10 /* max number of chars in words */
 
 main()
 {
-   int c, state, x, y, nword, nchar[HIST_SIZE], line[HIST_SIZE];
+   int c, state, i, nword, nchar[MAX_WORDS];
    state = OUT;
 
-   for (nword = 0; nword < HIST_SIZE; ++nword)
+   for (nword = 0; nword < MAX_WORDS; ++nword)
       nchar[nword] = 0;
 
    nword = 0;
@@ -29,26 +30,28 @@ main()
       }
    }
 
-   /* horizontal histogram */
-   nword = 0;
-   for (nword = 0; nword < HIST_SIZE; ++nword)
+   /*horizontal histogram*/
+   for (nword = 0; nword < MAX_WORDS; ++nword)
    {
-      for (x = 0; x < nchar[nword]; ++x)
-         putchar('#');
+      for (i = 0; i < nchar[nword]; ++i)
+         printf(" #");
       putchar('\n');
    }
+   for (i = 1; i < MAX_CHARS; ++i)
+      printf("%2d", i);
 
-   /* vertical histogram */
-   nword = x = y = 0;
-   for (y = 10; y >= 0; --y)
+   printf("\n\n");
+
+   /*vertical histogram*/
+   for (i = MAX_CHARS; i > 0; i--)
    {
-      for (nword = 0; nword < HIST_SIZE; ++nword)
+      printf("\n%2d", i);
+      for (nword = 0; nword < MAX_WORDS; ++nword)
       {
-         if(nchar[nword] <= y)
-            putchar('#');
+         if(nchar[nword] >= i)
+            printf(" #");
          else
-            putchar(' ');
+            printf("  ");
       }
-      putchar('\n');
    }
 }
